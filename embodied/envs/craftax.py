@@ -141,8 +141,9 @@ class Craftax(embodied.Env):
 
   @property
   def obs_space(self):
+    obs_type = self._env.observation_space.dtype
     spaces = {
-        'image': embodied.Space(np.float32, self._env.observation_space.shape),
+        'image': embodied.Space(obs_type, self._env.observation_space.shape),
         'reward': embodied.Space(np.float32),
         'is_first': embodied.Space(bool),
         'is_last': embodied.Space(bool),
