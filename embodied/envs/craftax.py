@@ -19,7 +19,6 @@ class ResizeObservationWrapper(gym.Wrapper):
 
         if new_shape is not None:
           self.new_shape = new_shape
-          # Update the observation space to reflect the new shape
           self.observation_space = spaces.Box(
               low=0, high=255,
               shape=(self.new_shape[0], self.new_shape[1], 3),
@@ -125,9 +124,12 @@ achievements = [
 ]
 
 class Craftax(embodied.Env):
-  def __init__(self, task, size=(64, 64), logs=False, logdir=None, seed=None):
-    assert task in ('image', 'symbolic')
-    self._env = ResizeObservationWrapper(CraftaxSymbolicEnvNoAutoReset())
+  def __init__(self, task, size=None, logs=False, logdir=None, seed=None):
+    assert task in ('pixels', 'symbolic')
+    size = (64,64) if task == 'pixels' else None
+    env_clss = CraftaxPixelsEnvNoAutoReset if task == 'pixels' else CraftaxSymbolicEnvNoAutoReset
+
+    self._env = ResizeObservationWrapper(env_clss(), size)
     self._logs = logs
     self._logdir = logdir and embodied.Path(logdir)
     self._logdir and self._logdir.mkdir()
@@ -136,7 +138,6 @@ class Craftax(embodied.Env):
     self._reward = None
     self._achievements = achievements
     self._done = True
-
 
   @property
   def obs_space(self):

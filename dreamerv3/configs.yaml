@@ -182,6 +182,24 @@ minecraft:
   enc.spaces: 'image|inventory|inventory_max|equipped|health|hunger|breath'
   dec.spaces: 'image|inventory|inventory_max|equipped|health|hunger|breath'
 
+craftax_proprio:
+  task: craftax_symbolic
+  run:
+    num_envs: 1
+    log_keys_max: '^log_achievement_.*'
+    log_keys_sum: '^log_reward$'
+  enc.spaces: 'image'
+  dec.spaces: 'image'
+
+craftax_vision:
+  task: craftax_pixels
+  run:
+    num_envs: 1
+    log_keys_max: '^log_achievement_.*'
+    log_keys_sum: '^log_reward$'
+  enc.spaces: 'image'
+  dec.spaces: 'image'
+
 dmlab:
   task: dmlab_explore_goal_locations_small
   enc.spaces: 'image|instr'
